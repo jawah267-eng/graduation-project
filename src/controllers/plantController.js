@@ -135,6 +135,8 @@ exports.deleteCategory = asynchandler(async (req, res) => {
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getVarietiesByPlant = asynchandler(async (req, res) => {
+  console.log("getVarietiesByPlant called");
+  console.log(req.params);
   const { plantId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(plantId)) {
     return res.status(400).json({ message: "Invalid ID" });

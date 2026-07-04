@@ -111,7 +111,7 @@ const deletePlant = async (plantId) => {
 //نجيب النبتة حسب id من mongoose باستخدامfindById
 
 const getVarietiesByPlant = async (data) => {
-  return await Variety.find({ plant_id: plantId });
+  return await Variety.find({ plant_id: data });
 };
 
 module.exports = {
