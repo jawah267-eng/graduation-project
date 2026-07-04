@@ -28,7 +28,7 @@ const getAllPlants = async ({ page, limit }) => {
   ]);
   return { plants, total };
 };
-// @get  specific plants by id
+// @get   plants by id
 // @rote  get: api/v1/plants/:id
 //@access public
 //نجيب النبتة حسب id من mongoose باستخدامfindById
@@ -99,9 +99,21 @@ const updatePlant = async (plantId, data) => {
     runValidators: true,
   });
 };
+//////////////////////////////////////////////////////////////////////
 const deletePlant = async (plantId) => {
   return await plant.findByIdAndDelete(plantId);
 };
+/////////////////////////////////////////////////////////////////////
+
+// @get   specific plants by id
+// @rote  get: /api/v1/plants/:plantId/varieties
+//@access public
+//نجيب النبتة حسب id من mongoose باستخدامfindById
+
+const getVarietiesByPlant = async (data) => {
+  return await Variety.find({ plant_id: plantId });
+};
+
 module.exports = {
   getAllPlants,
   createPlant,
@@ -111,4 +123,5 @@ module.exports = {
   deleteVariety,
   updatePlant,
   deletePlant,
+  getVarietiesByPlant,
 };

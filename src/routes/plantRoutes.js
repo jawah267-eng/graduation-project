@@ -7,7 +7,7 @@ const controller = require("../controllers/plantController");
 /*
 
 */
-
+router.get("/:plantId/varieties", controller.getVarietiesByPlant);
 router.get("/:id", controller.getplant);
 router.post("/:id/varieties", controller.createVariety);
 router
@@ -24,4 +24,5 @@ router.route("/").get(controller.getallplant).post(
 
 router.put("/:plantId", controller.updateCategory);
 router.delete("/:plantId", controller.deleteCategory);
+
 module.exports = router;

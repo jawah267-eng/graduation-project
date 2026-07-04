@@ -133,3 +133,18 @@ exports.deleteCategory = asynchandler(async (req, res) => {
     msg: "Category deleted successfully",
   });
 });
+//////////////////////////////////////////////////////////////////////////////////////////////////
+exports.getVarietiesByPlant = asynchandler(async (req, res) => {
+  const { plantId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
+  const varieties = await plantService.getVarietiesByPlant(plantId);
+
+  if (!varieties) {
+    return res
+      .status(404)
+      .json({ message: `Plant not found for this id ${plantId}` });
+  }
+  res.status(200).json(varieties);
+});
