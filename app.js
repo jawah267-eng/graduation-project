@@ -5,6 +5,7 @@ const { cloudinary } = require("./src/config/cloudinary");
 const plantroute = require("./src/routes/plantRoutes");
 const path = require("path");
 const { error } = require("console");
+const ApiError = require("./utils/apiError");
 // init app
 const app = express();
 
@@ -28,11 +29,12 @@ app.use("/images", express.static(path.join(__dirname, "src", "images")));
 app.use("/api/upload", require("./src/routes/uploadRoute"));
 // app.use("/api/test", require("./src/routes/testRoutes"));
 app.use("/api/v1/plants", plantroute);
-
+// catch error "route not found"
 app.use((req, res, next) => {
-  const err = new Error(`Can't find this route: ${req.originalUrl}`);
-  err.status = 404;
-  next(err);
+  // const err = new Error(`Can't find this route: ${req.originalUrl}`);
+  // err.status = 404;
+  // next(err);
+  next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
 });
 // Global error handling middleware
 app.use((err, req, res, next) => {
