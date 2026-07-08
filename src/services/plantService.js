@@ -100,6 +100,8 @@ const updatePlant = async (plantId, data) => {
   });
 };
 //////////////////////////////////////////////////////////////////////
+// @delet   specific plants by id
+// @rote  delet: api/v1/plants/:id
 const deletePlant = async (plantId) => {
   return await plant.findByIdAndDelete(plantId);
 };

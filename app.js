@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const { cloudinary } = require("./src/config/cloudinary");
 const plantroute = require("./src/routes/plantRoutes");
 const path = require("path");
+const { error } = require("console");
 // init app
 const app = express();
 
@@ -27,5 +28,18 @@ app.use("/images", express.static(path.join(__dirname, "src", "images")));
 app.use("/api/upload", require("./src/routes/uploadRoute"));
 // app.use("/api/test", require("./src/routes/testRoutes"));
 app.use("/api/v1/plants", plantroute);
+
+app.use((req, res, next) => {
+  const err = new Error(`Can't find this route: ${req.originalUrl}`);
+  err.status = 404;
+  next(err);
+});
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message,
+  });
+});
 
 module.exports = app;
