@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 // Global error handling middleware
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).json({
+  res.status(err.statusCode || 500).json({
     success: false,
     message: err.message,
   });
