@@ -38,10 +38,11 @@ app.use((req, res, next) => {
 });
 // Global error handling middleware
 app.use((err, req, res, next) => {
-  res.status(err.statusCode || 500).json({
-    success: false,
-    message: err.message,
-  });
+  // res.status(err.statusCode || 500).json({
+  //   success: false,
+  //   message: err.message,
+  // });
+  res.status(400).json({ err });
 });
 
 module.exports = app;
