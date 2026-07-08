@@ -7,3 +7,4 @@ class ApiError extends Error {
     this.isOperational = true;
   }
 }
+module.exports = ApiError;
