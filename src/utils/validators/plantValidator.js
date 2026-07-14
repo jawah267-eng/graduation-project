@@ -10,7 +10,7 @@ exports.createPlantValidator = [
   validatormiddleware,
 ];
 exports.updatePlantValidator = [
-  check("id").isMongoId().withMessage("invalid plant id format"),
+  check("plantId").isMongoId().withMessage("invalid plant id format"),
   validatormiddleware,
 ];
 exports.deletePlantValidator = [
