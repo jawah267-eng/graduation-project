@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const asynchandler = require("express-async-handler"); // مشان نكشف الاخطاء
 const plantService = require("../services/plantService");
-
+const ApiError = require("../utils/apiError");
 //مشان ضيف نبتة مع صورة وتحديد الشخص الذي قام بالادخال
-exports.createPlant = asynchandler(async (req, res) => {
+exports.createPlant = asynchandler(async (req, res, next) => {
   if (!req.body.common_name) {
     //  التأكد من وجود اسم النبتة
-    return res.status(400).json({ message: "Plant name is required" });
+    // return res.status(400).json({ message: "Plant name is required" });
+    return next(new ApiError("Plant name is required", 400));
   }
   // لتاكد من وجود الصورة
   const images = req.files
@@ -43,17 +44,18 @@ exports.getallplant = asynchandler(async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //بدي اعمل get specific plant
 //رجع حسب ال   -1 id
-exports.getplant = asynchandler(async (req, res) => {
+exports.getplant = asynchandler(async (req, res, next) => {
   const { id } = req.params;
   // اذا بعت المستخدم ال id غلط
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: "Invalid ID" });
+    return next(new ApiError("Invalid ID", 400));
   }
   const category = await plantService.getplant(id);
   if (!category) {
-    return res
-      .status(404)
-      .json({ message: `Plant not found for this id ${id}` });
+    // return res
+    //   .status(404)
+    //   .json({ message: `Plant not found for this id ${id}` });
+    return next(new ApiError(`Plant not found for this id ${id}`, 404));
   }
   res.status(200).json(category);
 });
@@ -62,10 +64,20 @@ exports.getplant = asynchandler(async (req, res) => {
 // بدي رجع حسب الاسم الشائع  -2
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //بدي اضيف اصناف النبتة
-exports.createVariety = asynchandler(async (req, res) => {
+exports.createVariety = asynchandler(async (req, res, next) => {
   const plantId = req.params.id;
-  console.log("BODY =>", req.body);
-  console.log("PLANT ID:", plantId);
+
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
+
+  const plant = await plantService.getplant(plantId);
+
+  if (!plant) {
+    return next(new ApiError("Plant not found", 404));
+  }
+  // console.log("BODY =>", req.body);
+  // console.log("PLANT ID:", plantId);
   const variety = await plantService.createVariety({
     ...req.body,
     plant_id: plantId,
@@ -75,23 +87,28 @@ exports.createVariety = asynchandler(async (req, res) => {
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //بدي عدل على اصناف النبتة حسب idتبعا
-exports.updateSpecificCategory = asynchandler(async (req, res) => {
-  const { plantId, varietyId } = req.params;
-
-  console.log("plantId:", plantId);
+exports.updateSpecificCategory = asynchandler(async (req, res, next) => {
+  const { varietyId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(varietyId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
   console.log("varietyId:", varietyId);
   const update = await plantService.updateVariety(varietyId, req.body);
   if (!update)
-    res.status(404).json({ msg: `No Category for this id ${varietyId}` });
+    return next(new ApiError(`No Category for this id ${varietyId}`, 404));
+
   res.status(200).json({ data: update });
 });
 /////////////////////////////////////////////////////////////////////////////////////////
 //بدي احذف صنف حسب id
 exports.deleteSpecificCategory = asynchandler(async (req, res) => {
   const { varietyId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(varietyId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
   const delet = await plantService.deleteVariety(varietyId);
   if (!delet)
-    res.status(404).json({ msg: `No Category for this id ${varietyId}` });
+    return next(new ApiError(`No Category for this id ${varietyId}`, 404));
   res.status(204).send();
 });
 
@@ -99,15 +116,16 @@ exports.deleteSpecificCategory = asynchandler(async (req, res) => {
 //بدي عدل category الاب حسب ال id
 
 // تعديل Category الأب (Plant)
-exports.updateCategory = asynchandler(async (req, res) => {
+exports.updateCategory = asynchandler(async (req, res, next) => {
   const { plantId } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
   const updatedCategory = await plantService.updatePlant(plantId, req.body);
 
   if (!updatedCategory) {
-    return res
-      .status(404)
-      .json({ msg: `No Category found with id ${plantId}` });
+    return next(new ApiError(`No Category found with id ${plantId}`, 404));
   }
 
   res.status(200).json({
@@ -117,36 +135,36 @@ exports.updateCategory = asynchandler(async (req, res) => {
 });
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-exports.deleteCategory = asynchandler(async (req, res) => {
+exports.deleteCategory = asynchandler(async (req, res, next) => {
   const { plantId } = req.params;
-
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
   const deletedCategory = await plantService.deletePlant(plantId);
 
   if (!deletedCategory) {
-    return res
-      .status(404)
-      .json({ msg: `No Category found with id ${plantId}` });
+    return next(new ApiError(`No Category found with id ${plantId}`, 404));
   }
-
-  res.status(204).json({
+  res.status(200).json({
     success: true,
     msg: "Category deleted successfully",
   });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
-exports.getVarietiesByPlant = asynchandler(async (req, res) => {
+exports.getVarietiesByPlant = asynchandler(async (req, res, next) => {
   console.log("getVarietiesByPlant called");
   console.log(req.params);
   const { plantId } = req.params;
+
   if (!mongoose.Types.ObjectId.isValid(plantId)) {
-    return res.status(400).json({ message: "Invalid ID" });
+    return next(new ApiError("Invalid ID", 400));
+  }
+  const plant = await plantService.getplant(plantId);
+
+  if (!plant) {
+    return next(new ApiError(`Plant not found for this id ${plantId}`, 404));
   }
   const varieties = await plantService.getVarietiesByPlant(plantId);
 
-  if (!varieties) {
-    return res
-      .status(404)
-      .json({ message: `Plant not found for this id ${plantId}` });
-  }
   res.status(200).json(varieties);
 });

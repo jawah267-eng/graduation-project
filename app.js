@@ -5,7 +5,11 @@ const { cloudinary } = require("./src/config/cloudinary");
 const plantroute = require("./src/routes/plantRoutes");
 const path = require("path");
 const { error } = require("console");
-const ApiError = require("./utils/apiError");
+const ApiError = require("./src/utils/apiError");
+const globalError = require("./src/middlewares/errorMiddleware");
+
+//connect with db
+// dbconnection();
 // init app
 const app = express();
 
@@ -37,15 +41,6 @@ app.use((req, res, next) => {
   next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
 });
 // Global error handling middleware
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || "error";
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
-});
+app.use(globalError);
 
 module.exports = app;
