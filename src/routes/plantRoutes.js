@@ -26,11 +26,12 @@ router.route("/").get(controller.getallplant).post(
 router.get(
   "/:id",
   param("id").isMongoId().withMessage("invalid plant id"),
-  (req, res) => {
+  (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    next();
   },
   controller.getplant,
 );

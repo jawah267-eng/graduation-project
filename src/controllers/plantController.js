@@ -42,7 +42,7 @@ exports.getallplant = asynchandler(async (req, res) => {
   });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////
-//بدي اعمل get specific plant
+//بدي اعمل get  plant
 //رجع حسب ال   -1 id
 exports.getplant = asynchandler(async (req, res, next) => {
   const { id } = req.params;
@@ -134,7 +134,7 @@ exports.updateCategory = asynchandler(async (req, res, next) => {
   });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////
-
+// بدي احذف  نبتة الاب
 exports.deleteCategory = asynchandler(async (req, res, next) => {
   const { plantId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(plantId)) {
@@ -151,6 +151,7 @@ exports.deleteCategory = asynchandler(async (req, res, next) => {
   });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
+//بدي جيب اصناف نبتة معينة
 exports.getVarietiesByPlant = asynchandler(async (req, res, next) => {
   console.log("getVarietiesByPlant called");
   console.log(req.params);
