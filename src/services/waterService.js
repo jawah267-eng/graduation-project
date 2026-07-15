@@ -1,5 +1,5 @@
 const Water = require("../models/watering");
-
+// عم ابني منطق تم الري
 exports.markAsWatered = async (userPlantId) => {
   // 1. البحث عن سجل المياه المرتبط بالنبتة
   const waterRecord = await Water.findOne({ user_plant_id: userPlantId });

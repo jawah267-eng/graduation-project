@@ -1,18 +1,17 @@
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-
 const WaterService = require("../services/waterService");
 const ApiError = require("../utils/apiError");
-
+// استقبال طلب تم الري
 exports.markAsWatered = asyncHandler(async (req, res, next) => {
   const { userPlantId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userPlantId)) {
     return next(new ApiError("Invalid user plant id", 400));
   }
-
+  // استدعاء الـ service يلي بيحدث last_watering_date و next_watering_date
   const water = await WaterService.markAsWatered(userPlantId);
-
+  // إذا ما في سجل Water مرتبط بهاد الـ userPlantId
   if (!water) {
     return next(new ApiError("Water record not found for this plant", 404));
   }

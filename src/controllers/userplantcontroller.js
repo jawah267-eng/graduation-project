@@ -1,11 +1,11 @@
 const UserPlant = require("../models/userplants");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-
 const UserPlantService = require("../services/userPlantService");
 const Plant = require("../models/plants");
 const ApiError = require("../utils/apiError");
 
+// استقبال طلب الإنشاء
 exports.getUserPlants = async (req, res) => {
   const data = await UserPlant.find({ user: req.user.id }).populate("plant"); //
 

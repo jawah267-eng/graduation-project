@@ -2,6 +2,7 @@ const UserPlant = require("../models/userplants");
 const Water = require("../models/watering");
 const Plant = require("../models/plants");
 
+// منطق الإنشاء المزدوج للجدولين
 exports.createUserPlant = async (data) => {
   // 1. إنشاء سجل UserPlant
   const userPlant = await UserPlant.create(data);
