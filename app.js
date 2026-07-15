@@ -7,9 +7,8 @@ const path = require("path");
 const { error } = require("console");
 const ApiError = require("./src/utils/apiError");
 const globalError = require("./src/middlewares/errorMiddleware");
+const userPlantRoute = require("./src/routes/userPlantRoutes");
 
-//connect with db
-// dbconnection();
 // init app
 const app = express();
 
@@ -35,6 +34,9 @@ app.use("/api/upload", require("./src/routes/uploadRoute"));
 app.use("/api/v1/plants", plantroute);
 //GET /api/v1/plants/:plantId/soils    مشان بصير هيك
 app.use("/api/v1/plants", require("./src/routes/soilRoutes"));
+//POST  /api/v1/userplants
+app.use("/api/v1/userplants", userPlantRoute);
+
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
