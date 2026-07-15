@@ -7,9 +7,16 @@ const ApiError = require("../utils/apiError");
 exports.getFertilizingSchedule = asyncHandler(async (req, res) => {
   const schedule = await FertilizingService.getFertilizingSchedule();
 
+  const result = schedule.map((item) => ({
+    plant_name: item.user_plant_id.plant_id.common_name,
+    fertilizer_type: item.fertilizer_type,
+    last_fertilizing_date: item.last_fertilizing_date,
+    next_fertilizing_date: item.next_fertilizing_date,
+    frequency_days: item.frequency_days,
+  }));
   res.status(200).json({
-    results: schedule.length,
-    data: schedule,
+    results: result.length,
+    data: result,
   });
 });
 
