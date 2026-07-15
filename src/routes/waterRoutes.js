@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/waterController");
-
+//GET /api/v1/water
 router.get("/", controller.getWaterSchedule);
 // PATCH لأننا عم "نحدث" سجل موجود، مش ننشئ جديد
 // الـ userPlantId جاي من الـ URL params

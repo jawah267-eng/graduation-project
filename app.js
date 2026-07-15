@@ -8,6 +8,7 @@ const { error } = require("console");
 const ApiError = require("./src/utils/apiError");
 const globalError = require("./src/middlewares/errorMiddleware");
 const userPlantRoute = require("./src/routes/userPlantRoute");
+const fertilizingRoute = require("./src/routes/fertilizingRoutes");
 
 // init app
 const app = express();
@@ -38,6 +39,8 @@ app.use("/api/v1/plants", require("./src/routes/soilRoutes"));
 app.use("/api/v1/userplants", userPlantRoute);
 //PATCH /api/v1/water/:userPlantId
 app.use("/api/v1/water", require("./src/routes/waterRoutes"));
+//GET /api/v1/fertilizing
+app.use("/api/v1/fertilizing", fertilizingRoute);
 
 // catch error "route not found"
 app.use((req, res, next) => {

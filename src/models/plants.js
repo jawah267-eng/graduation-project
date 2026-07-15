@@ -35,6 +35,15 @@ const plantSchema = new mongoose.Schema(
       enum: ["high", "low", "moderate", "moderate-high", "moderate-low"],
     },
     watering_frequency_days: { type: Number, default: 7 },
+    fertilizer_type: {
+      type: String,
+      enum: ["Organic", "NPK", "Compost", "Manure", "Mixed"],
+    },
+
+    fertilizing_frequency_days: {
+      type: Number,
+      default: 30,
+    },
     images: [
       {
         url: String,

@@ -1,6 +1,7 @@
 const UserPlant = require("../models/userplants");
 const Water = require("../models/watering");
 const Plant = require("../models/plants");
+const Fertilizing = require("../models/Fertilizing");
 
 // منطق الإنشاء المزدوج للجدولين
 exports.createUserPlant = async (data) => {
@@ -26,3 +27,20 @@ exports.createUserPlant = async (data) => {
 
   return { userPlant, water };
 };
+//////////////////////////////////////////////////////////////
+// انشاء سجل fertilizing
+const lastFertilizingDate = new Date();
+
+const nextFertilizingDate = new Date(lastFertilizingDate);
+
+nextFertilizingDate.setDate(
+  nextFertilizingDate.getDate() + plant.fertilizing_frequency_days,
+);
+
+await Fertilizing.create({
+  user_plant_id: userPlant._id,
+  fertilizer_type: plant.fertilizer_type,
+  last_fertilizing_date: lastFertilizingDate,
+  frequency_days: plant.fertilizing_frequency_days,
+  next_fertilizing_date: nextFertilizingDate,
+});
