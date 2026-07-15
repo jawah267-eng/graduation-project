@@ -33,6 +33,8 @@ app.use("/images", express.static(path.join(__dirname, "src", "images")));
 app.use("/api/upload", require("./src/routes/uploadRoute"));
 // app.use("/api/test", require("./src/routes/testRoutes"));
 app.use("/api/v1/plants", plantroute);
+//GET /api/v1/plants/:plantId/soils    مشان بصير هيك
+app.use("/api/v1/plants", require("./src/routes/soilRoutes"));
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
