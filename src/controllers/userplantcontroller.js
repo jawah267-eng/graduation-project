@@ -11,7 +11,7 @@ exports.getUserPlants = async (req, res) => {
 
   res.json(data);
 };
-
+///////////////////////////////////////////////////////////////////////
 exports.createUserPlant = asyncHandler(async (req, res, next) => {
   const { plant_id } = req.body;
 
@@ -28,7 +28,7 @@ exports.createUserPlant = asyncHandler(async (req, res, next) => {
   }
 
   // إنشاء السجل
-  const userPlant = await UserPlantService.createUserPlant(req.body);
+  const result = await UserPlantService.createUserPlant(req.body);
 
-  res.status(201).json(userPlant);
+  res.status(201).json(result);
 });
