@@ -10,7 +10,9 @@ exports.markAsWatered = async (userPlantId) => {
   // 2. تحديد تاريخ الري (اليوم) وتاريخ الري القادم
   const today = new Date();
   const nextWateringDate = new Date(today);
-  nextWateringDate.setDate(nextWateringDate.getDate() + water.frequency_days);
+  nextWateringDate.setDate(
+    nextWateringDate.getDate() + waterRecord.frequency_days,
+  );
   // 3. تحديث القيم في قاعدة البيانات
   waterRecord.last_watering_date = today;
   waterRecord.next_watering_date = nextWateringDate;
