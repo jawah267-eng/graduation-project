@@ -37,6 +37,8 @@ app.use("/api/v1/plants", require("./src/routes/soilRoutes"));
 //POST  /api/v1/userplants
 app.use("/api/v1/userplants", userPlantRoute);
 
+app.use("/api/v1/water", require("./src/routes/waterRoutes"));
+
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
