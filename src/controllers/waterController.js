@@ -18,3 +18,13 @@ exports.markAsWatered = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(water);
 });
+/////////////////////////////////////////////////////////////////////
+
+exports.getWaterSchedule = asyncHandler(async (req, res) => {
+  const waterSchedule = await WaterService.getWaterSchedule();
+
+  res.status(200).json({
+    results: waterSchedule.length,
+    data: waterSchedule,
+  });
+});

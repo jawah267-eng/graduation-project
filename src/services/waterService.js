@@ -21,3 +21,13 @@ exports.markAsWatered = async (userPlantId) => {
 
   return waterRecord;
 };
+
+exports.getWaterSchedule = async () => {
+  return await Water.find().populate({
+    path: "user_plant_id",
+    populate: {
+      path: "plant_id",
+      select: "common_name",
+    },
+  });
+};
