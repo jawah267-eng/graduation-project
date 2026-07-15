@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const userPlantController = require("../controllers/userPlantController");
+const userPlantController = require("../controllers/userplantcontroller");
 
 router.post("/", userPlantController.createUserPlant);
 
