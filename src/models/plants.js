@@ -30,6 +30,11 @@ const plantSchema = new mongoose.Schema(
     drought_tolerance: { type: String },
     frost_tolerance: { type: String },
     average_yield: { type: String },
+    water_requirement: {
+      type: String,
+      enum: ["high", "low", "moderate", "moderate-high", "moderate-low"],
+    },
+    watering_frequency_days: { type: Number, default: 7 },
     images: [
       {
         url: String,
