@@ -7,7 +7,7 @@ const path = require("path");
 const { error } = require("console");
 const ApiError = require("./src/utils/apiError");
 const globalError = require("./src/middlewares/errorMiddleware");
-const userPlantRoute = require("./src/routes/userPlantRoutes");
+const userPlantRoute = require("./src/routes/userPlantRoute");
 
 // init app
 const app = express();
