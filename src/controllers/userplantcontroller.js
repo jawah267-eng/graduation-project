@@ -1,4 +1,4 @@
-const UserPlant = require("../models/userPlant");
+const UserPlant = require("../models/userplants");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 
