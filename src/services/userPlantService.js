@@ -1,3 +1,4 @@
+const UserPlant = require("../models/userplants");
 const Water = require("../models/watering");
 const Plant = require("../models/plants");
 const Fertilizing = require("../models/Fertilizing");
