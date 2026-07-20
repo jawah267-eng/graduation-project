@@ -1,10 +1,9 @@
-const UserPlant = require("../models/userplants");
 const Water = require("../models/watering");
 const Plant = require("../models/plants");
 const Fertilizing = require("../models/Fertilizing");
 
 // منطق الإنشاء المزدوج للجدولين
-exports.createUserPlant = async (data) => {
+const createUserPlant = async (data) => {
   // 1. إنشاء سجل UserPlant
   const userPlant = await UserPlant.create(data);
 
@@ -43,4 +42,45 @@ exports.createUserPlant = async (data) => {
   });
 
   return { userPlant, water, fertilizer };
+};
+/////////////////////////////////////////////////////////////////
+// @get a list of userplants
+// @rote  get: api/v1/userplants
+const getAllUserPlants = async () => {
+  return await UserPlant.find()
+    .populate("plant_id", "common_name")
+    .populate("user_id");
+};
+/////////////////////////////////////////////////////////////
+// @get a list of userplants by id
+// @rote  get: api/v1/userplants/:id
+const getUserPlant = async (id) => {
+  return await UserPlant.findById(id)
+    .populate("plant_id", "common_name")
+    .populate("user_id");
+};
+///////////////////////////////////////////////////////////////////
+// @update t of userplants
+// @rote  update: api/v1/userplants/:id
+const updateUserPlant = async (id, data) => {
+  return await UserPlant.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
+};
+///////////////////////////////////////////////////////////////////
+// @delete  of userplants
+// @rote  delete: api/v1/userplants/:id
+const deleteUserPlant = async (id) => {
+  await Water.deleteOne({ user_plant_id: id });
+  await Fertilizing.deleteOne({ user_plant_id: id });
+  return await UserPlant.findByIdAndDelete(id);
+};
+
+module.exports = {
+  createUserPlant,
+  getAllUserPlants,
+  getUserPlant,
+  updateUserPlant,
+  deleteUserPlant,
 };
