@@ -9,6 +9,7 @@ const ApiError = require("./src/utils/apiError");
 const globalError = require("./src/middlewares/errorMiddleware");
 const userPlantRoute = require("./src/routes/userPlantRoute");
 const fertilizingRoute = require("./src/routes/fertilizingRoutes");
+const diseaseRoute = require("./src/routes/diseaseRoute");
 
 // init app
 const app = express();
@@ -37,6 +38,8 @@ app.use("/api/v1/plants", plantroute);
 app.use("/api/v1/plants", require("./src/routes/soilRoutes"));
 //POST  /api/v1/userplants
 app.use("/api/v1/userplants", userPlantRoute);
+// GET /api/v1/diseases/userplant/:userPlantId
+app.use("/api/v1/diseases", diseaseRoute);
 //PATCH /api/v1/water/:userPlantId
 app.use("/api/v1/water", require("./src/routes/waterRoutes"));
 //GET /api/v1/fertilizing
