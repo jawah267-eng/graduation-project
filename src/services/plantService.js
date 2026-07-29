@@ -1,6 +1,8 @@
 const slugify = require("slugify");
 const plant = require("../models/plants");
 const Variety = require("../models/Variety-plant");
+const DiseasePlant = require("../models/diseases_plant");
+const Disease = require("../models/diseases");
 
 // @createplant تابع لاضافة نبتة من postmanمن خلال req.body
 //@rote   post: api/v1/plants
@@ -115,6 +117,46 @@ const deletePlant = async (plantId) => {
 const getVarietiesByPlant = async (data) => {
   return await Variety.find({ plant_id: data });
 };
+/////////////////////////////////////////////////////////////////////////
+// هون بدي حط انشاء علاقة بين المرض و النبتة
+
+const createDiseaseRelation = async (plantId, diseasesId, susceptibility) => {
+  const disease = await Disease.findById(diseasesId);
+
+  if (!disease) {
+    return null;
+  }
+
+  const relationExists = await DiseasePlant.findOne({
+    plant_id: plantId,
+    diseases_id: diseasesId,
+  });
+
+  if (relationExists) {
+    return { error: "RELATION_EXISTS" };
+  }
+
+  return await DiseasePlant.create({
+    plant_id: plantId,
+    diseases_id: diseasesId,
+    susceptibility,
+  });
+};
+//////////////////////////////////////////////////////////////////////////////////
+//هون بجيب كل الامراض الخاصة بنبات معبن
+const getDiseasesByPlant = async (plantId) => {
+  return await DiseasePlant.find({
+    plant_id: plantId,
+  }).populate(
+    "diseases_id",
+    "name diseasestype symptoms prevention treatment peak_season",
+  );
+};
+//////////////////////////////////////////////////////////////////////////////
+//حذف المرض
+const deleteDiseaseRelation = async (relationId) => {
+  return await DiseasePlant.findByIdAndDelete(relationId);
+};
 
 module.exports = {
   getAllPlants,
@@ -126,4 +168,7 @@ module.exports = {
   updatePlant,
   deletePlant,
   getVarietiesByPlant,
+  createDiseaseRelation,
+  getDiseasesByPlant,
+  deleteDiseaseRelation,
 };

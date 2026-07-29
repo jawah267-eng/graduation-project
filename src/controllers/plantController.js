@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const asynchandler = require("express-async-handler"); // مشان نكشف الاخطاء
 const plantService = require("../services/plantService");
 const ApiError = require("../utils/apiError");
+
 //مشان ضيف نبتة مع صورة وتحديد الشخص الذي قام بالادخال
 exports.createPlant = asynchandler(async (req, res, next) => {
   if (!req.body.common_name) {
@@ -168,4 +169,78 @@ exports.getVarietiesByPlant = asynchandler(async (req, res, next) => {
   const varieties = await plantService.getVarietiesByPlant(plantId);
 
   res.status(200).json(varieties);
+});
+//////////////////////////////////////////////////////////////////////////////////////
+// انشاء علاقة نبتة مع المرض @admin
+exports.createDiseaseRelation = asynchandler(async (req, res, next) => {
+  const plantId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
+
+  const plant = await plantService.getplant(plantId);
+
+  if (!plant) {
+    return next(new ApiError("Plant not found", 404));
+  }
+
+  const relation = await plantService.createDiseaseRelation({
+    ...req.body,
+    plant_id: plantId,
+  });
+
+  if (relation.error === "DISEASE_NOT_FOUND") {
+    return next(new ApiError("Disease not found", 404));
+  }
+
+  if (relation.error === "RELATION_EXISTS") {
+    return next(
+      new ApiError("This disease is already linked to this plant", 400),
+    );
+  }
+});
+//////////////////////////////////////////////////////////////////////////////////////
+//رجعلي الامراض الخاصة بنبتة المستخدم @user
+exports.getDiseasesByPlant = asynchandler(async (req, res, next) => {
+  const { plantId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(plantId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
+
+  const plant = await plantService.getplant(plantId);
+
+  if (!plant) {
+    return next(new ApiError(`Plant not found for this id ${plantId}`, 404));
+  }
+
+  const diseases = await plantService.getDiseasesByPlant(plantId);
+
+  res.status(200).json({
+    results: diseases.length,
+    data: diseases,
+  });
+});
+//////////////////////////////////////////////////////////////////////////////////////
+// حذف مرض  @admin
+exports.deleteDiseaseRelation = asynchandler(async (req, res, next) => {
+  const { relationId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(relationId)) {
+    return next(new ApiError("Invalid ID", 400));
+  }
+
+  const relation = await plantService.deleteDiseaseRelation(relationId);
+
+  if (!relation) {
+    return next(
+      new ApiError(`No disease relation found with id ${relationId}`, 404),
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Disease relation deleted successfully",
+  });
 });

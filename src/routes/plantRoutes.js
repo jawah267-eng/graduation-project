@@ -38,4 +38,14 @@ router.get(
 router.put("/:plantId", updatePlantValidator, controller.updateCategory);
 router.delete("/:plantId", deletePlantValidator, controller.deleteCategory);
 
+// route لانشاء علاقة بين المرض والنبتة
+router.post("/:id/diseases", controller.createDiseaseRelation);
+
+router.get("/:plantId/diseases", controller.getDiseasesByPlant);
+
+router.delete(
+  "/:plantId/diseases/:relationId",
+  controller.deleteDiseaseRelation,
+);
+
 module.exports = router;
