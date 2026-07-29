@@ -44,6 +44,8 @@ app.use("/api/v1/diseases", diseaseRoute);
 app.use("/api/v1/water", require("./src/routes/waterRoutes"));
 //GET /api/v1/fertilizing
 app.use("/api/v1/fertilizing", fertilizingRoute);
+// POST /api/v1/diseases
+app.use("/api/v1/diseases", diseaseRoute);
 
 // catch error "route not found"
 app.use((req, res, next) => {
