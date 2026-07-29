@@ -10,7 +10,7 @@ const globalError = require("./src/middlewares/errorMiddleware");
 const userPlantRoute = require("./src/routes/userPlantRoute");
 const fertilizingRoute = require("./src/routes/fertilizingRoutes");
 const diseaseRoute = require("./src/routes/diseaseRoute");
-const diseasePlantRoute = require("./src/routes/diseasePlantRoute");
+const diseasePlantRoute = require("./src/routes/diseaseRoute");
 
 // init app
 const app = express();
