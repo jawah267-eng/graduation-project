@@ -185,12 +185,15 @@ exports.createDiseaseRelation = asynchandler(async (req, res, next) => {
     return next(new ApiError("Plant not found", 404));
   }
 
-  const relation = await plantService.createDiseaseRelation({
-    ...req.body,
-    plant_id: plantId,
-  });
+  const { diseases_id, susceptibility } = req.body;
 
-  if (relation.error === "DISEASE_NOT_FOUND") {
+  const relation = await plantService.createDiseaseRelation(
+    plantId,
+    diseases_id,
+    susceptibility,
+  );
+
+  if (!relation) {
     return next(new ApiError("Disease not found", 404));
   }
 
@@ -199,6 +202,7 @@ exports.createDiseaseRelation = asynchandler(async (req, res, next) => {
       new ApiError("This disease is already linked to this plant", 400),
     );
   }
+  res.status(201).json(relation);
 });
 //////////////////////////////////////////////////////////////////////////////////////
 //رجعلي الامراض الخاصة بنبتة المستخدم @user
