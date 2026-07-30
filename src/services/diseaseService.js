@@ -1,6 +1,6 @@
 const UserPlant = require("../models/userplants");
 const DiseasePlant = require("../models/diseases_plant");
-
+const Disease = require("../models/diseases");
 // جلب النبات الذي اختاره المستخدم
 //يعني بروح على معرف المستخدم بجيب صفحته ف بشوف كل نباتات اللي عنده
 //بعدا بدور على بالامراض على نباتاته
