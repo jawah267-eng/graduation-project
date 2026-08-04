@@ -31,9 +31,16 @@ exports.createDisease = asynchandler(async (req, res, next) => {
   if (!req.body.name) {
     return next(new ApiError("Disease name is required", 400));
   }
+  const image = req.file
+    ? {
+        url: req.file.path,
+      }
+    : null;
 
-  const disease = await diseaseService.createDisease(req.body);
-
+  const disease = await DiseaseService.createDisease({
+    ...req.body,
+    image,
+  });
   res.status(201).json(disease);
 });
 ///////////////////////////////////////////////////////////////////////////////////////

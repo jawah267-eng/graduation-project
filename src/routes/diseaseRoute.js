@@ -8,7 +8,10 @@ router.get("/userplant/:userPlantId", controller.getDiseasesByUserPlant);
 
 // ارجاع كل الامراض
 //اضافة مرض
-router.route("/").get(controller.getAllDiseases).post(controller.createDisease);
+router
+  .route("/")
+  .get(controller.getAllDiseases)
+  .post(upload.single("image"), controller.createDisease);
 //ارجاع مرض معين
 //تعديل مرض
 //حذف مرض
