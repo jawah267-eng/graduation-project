@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const upload = require("../middlewares/uploadMiddleware");
 const controller = require("../controllers/diseaseController");
 
 // جلب الأمراض حسب نبتة المستخدم
