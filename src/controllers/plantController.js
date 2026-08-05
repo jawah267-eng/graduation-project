@@ -222,6 +222,7 @@ exports.getDiseasesByPlant = asynchandler(async (req, res, next) => {
   const diseases = await plantService.getDiseasesByPlant(plantId);
 
   const result = diseases.map((item) => ({
+    disease_id: item.diseases_id._id,
     name: item.diseases_id.name,
     diseasestype: item.diseases_id.diseasestype,
     susceptibility: item.susceptibility,
