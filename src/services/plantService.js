@@ -149,7 +149,7 @@ const getDiseasesByPlant = async (plantId) => {
     plant_id: plantId,
   }).populate(
     "diseases_id",
-    "name diseasestype symptoms prevention treatment peak_season",
+    "name diseasestype symptoms prevention treatment peak_season image",
   );
 };
 //////////////////////////////////////////////////////////////////////////////
