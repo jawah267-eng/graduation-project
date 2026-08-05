@@ -230,6 +230,7 @@ exports.getDiseasesByPlant = asynchandler(async (req, res, next) => {
     prevention: item.diseases_id.prevention,
     treatment: item.diseases_id.treatment,
     peak_season: item.diseases_id.peak_season,
+    image: item.diseases_id.image,
   }));
 
   res.status(200).json({
