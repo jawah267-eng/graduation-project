@@ -35,7 +35,7 @@ exports.createDisease = asynchandler(async (req, res, next) => {
     ? {
         url: req.file.path,
       }
-    : null;
+    : req.body.image || null;
 
   const disease = await diseaseService.createDisease({
     ...req.body,
