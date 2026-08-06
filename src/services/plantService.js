@@ -151,6 +151,7 @@ const getDiseasesByPlant = async (plantId) => {
     "diseases_id",
     "name diseasestype symptoms prevention treatment peak_season image",
   );
+  console.log(relation);
 };
 //////////////////////////////////////////////////////////////////////////////
 //حذف المرض
