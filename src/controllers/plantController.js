@@ -220,7 +220,7 @@ exports.getDiseasesByPlant = asynchandler(async (req, res, next) => {
   }
 
   const diseases = await plantService.getDiseasesByPlant(plantId);
-
+  console.log(JSON.stringify(diseases, null, 2));
   const result = diseases.map((item) => ({
     disease_id: item.diseases_id._id,
     name: item.diseases_id.name,
