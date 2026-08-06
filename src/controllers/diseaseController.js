@@ -37,7 +37,7 @@ exports.createDisease = asynchandler(async (req, res, next) => {
       }
     : null;
 
-  const disease = await DiseaseService.createDisease({
+  const disease = await diseaseService.createDisease({
     ...req.body,
     image,
   });
