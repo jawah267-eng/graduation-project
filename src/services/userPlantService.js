@@ -48,7 +48,7 @@ const createUserPlant = async (data) => {
 // @get a list of userplants
 // @rote  get: api/v1/userplants
 const getAllUserPlants = async () => {
-  return await UserPlant.find()
+  const userPlants = await UserPlant.find()
     .populate("plant_id", "common_name")
     .populate("user_id");
   const result = await Promise.all(
