@@ -51,6 +51,25 @@ const getAllUserPlants = async () => {
   return await UserPlant.find()
     .populate("plant_id", "common_name")
     .populate("user_id");
+  const result = await Promise.all(
+    userPlants.map(async (userPlant) => {
+      const water = await Water.findOne({
+        user_plant_id: userPlant._id,
+      });
+
+      const fertilizer = await Fertilizing.findOne({
+        user_plant_id: userPlant._id,
+      });
+
+      return {
+        ...userPlant.toObject(),
+        water,
+        fertilizer,
+      };
+    }),
+  );
+
+  return result;
 };
 /////////////////////////////////////////////////////////////
 // @get a list of userplants by id
