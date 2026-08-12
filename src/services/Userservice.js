@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const expressAsyncHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const upload = require("../middlewares/uploadMiddleware");
 const factory = require("./handlersfactory");
 const apierror = require("../utils/apiError");
