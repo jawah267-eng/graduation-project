@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { createUsertValidator } = require("../utils/validators/UserValidator");
+const {
+  createUsertValidator,
+  getUsertValidator,
+  updateUserValidator,
+  deleteUserValidator,
+  changeUserPassword,
+  changeUserPasswordValidator,
+} = require("../utils/validators/UserValidator");
 const {
   getUsers,
   getUser,
@@ -10,6 +17,12 @@ const {
   uploadimage,
   setProfileImage,
 } = require("../services/Userservice");
+// هاد مشان تغير كلمة السر
+router.put(
+  "/changepassword/:id",
+  changeUserPasswordValidator,
+  changeUserPassword,
+);
 
 router
   .route("/")
@@ -18,8 +31,8 @@ router
 
 router
   .route("/:id")
-  .get(getUser)
-  .put(uploadimage, setProfileImage, updateUser)
-  .delete(deleteUser);
+  .get(getUsertValidator, getUser)
+  .put(uploadimage, setProfileImage, updateUserValidator, updateUser)
+  .delete(deleteUserValidator, deleteUser);
 
 module.exports = router;
