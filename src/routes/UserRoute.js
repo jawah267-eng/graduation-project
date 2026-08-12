@@ -8,15 +8,15 @@ const {
   updateUser,
   deleteUser,
   uploadimage,
-  resizeImage,
+  setProfileImage,
 } = require("../services/Userservice");
 
-router.route("/").get(getUsers).post(uploadimage, resizeImage, createUser);
+router.route("/").get(getUsers).post(uploadimage, setProfileImage, createUser);
 
 router
   .route("/:id")
   .get(getUser)
-  .put(uploadimage, resizeImage, updateUser)
+  .put(uploadimage, setProfileImage, updateUser)
   .delete(deleteUser);
 
 module.exports = router;

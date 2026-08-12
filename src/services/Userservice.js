@@ -1,23 +1,16 @@
 const User = require("../models/user");
 const expressAsyncHandler = require("express-async-handler");
 const upload = require("../middlewares/uploadMiddleware");
-const { v4: uuidv4 } = require("uuid");
-const sharp = require("sharp");
 const factory = require("./handlersfactory");
-// export image
+// Upload profile image
 exports.uploadimage = upload.single("profileImg");
 
-exports.resizeImage = expressAsyncHandler(async (req, res, next) => {
-  const filename = `user-${uuidv4()}-${Date.now()}.jpeg`;
+// Get Cloudinary image URL and save it in request body
+exports.setProfileImage = expressAsyncHandler(async (req, res, next) => {
+  if (req.file) {
+    req.body.profileImg = req.file.path;
+  }
 
-  //   await sharp(req.file.buffer)
-  //     .resize(600, 600)
-  //     .toFormat("jpeg")
-  //     .jpeg({ quality: 90 })
-  //     .toFile(`upload/user/${filename}`);
-
-  // save the image in db
-  req.body.profileImg = filename;
   next();
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
