@@ -1,70 +1,92 @@
 const asyncHandler = require("express-async-handler");
-const apiError = require("../utils/apiError");
+const ApiError = require("../utils/apiError");
 const ApiFeatures = require("../utils/apiFeatures");
 
-exports.deleteOne = (model) => {
+// Delete One
+exports.deleteOne = (model) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
+
     const document = await model.findByIdAndDelete(id);
+
     if (!document) {
-      return next(new apiError(`no document for this id ${id}`, 404));
+      return next(new ApiError(`No document for this id ${id}`, 404));
     }
+
     res.status(204).send();
   });
-};
-/////////////////////////////////////////////////////////////////////////////////////////
-exports.updateOne = (model) => {
+
+// Update One
+exports.updateOne = (model) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const document = await model.findByIdAndUpdate(req.params.id, req.body, {
+
+    const document = await model.findByIdAndUpdate(id, req.body, {
       new: true,
+      runValidators: true,
     });
+
     if (!document) {
-      return next(new apiError(`no document for this id ${id}`, 404));
+      return next(new ApiError(`No document for this id ${id}`, 404));
     }
-    res.status(200).send();
+
+    res.status(200).json({
+      status: "success",
+      data: document,
+    });
   });
-};
-//////////////////////////////////////////////////////////////////////////////////////////////////
-exports.createOne = (model) => {
+
+// Create One
+exports.createOne = (model) =>
   asyncHandler(async (req, res) => {
     const document = await model.create(req.body);
 
-    res.status(201).send();
+    res.status(201).json({
+      status: "success",
+      data: document,
+    });
   });
-};
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-exports.getOne = (model) => {
+// Get One
+exports.getOne = (model) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
+
     const document = await model.findById(id);
 
     if (!document) {
-      return next(new apiError(`no document for this id ${id}`, 404));
+      return next(new ApiError(`No document for this id ${id}`, 404));
     }
-    res.status(204).send();
+
+    res.status(200).json({
+      status: "success",
+      data: document,
+    });
   });
-};
-//////////////////////////////////////////////////////////////////////////////////////////////////
-exports.getAll = (model) => {
+
+// Get All
+exports.getAll = (model) =>
   asyncHandler(async (req, res) => {
-    // build query
-    const { id } = req.params;
+    // Count documents
     const documentCounts = await model.countDocuments();
+
+    // Build query
     const apiFeatures = new ApiFeatures(model.find(), req.query)
       .paginate(documentCounts)
       .filter()
       .search()
       .limitFields()
       .sort();
-    // execute query
+
+    // Execute query
     const { mongooseQuery, paginationResult } = apiFeatures;
+
     const documents = await mongooseQuery;
 
-    res
-      .status(200)
-      .json({ results: documents.length, pagenationResult, data: documents });
+    res.status(200).json({
+      status: "success",
+      results: documents.length,
+      paginationResult,
+      data: documents,
+    });
   });
-};
-//////////////////////////////////////////////////////////////////////////////////////////////////
