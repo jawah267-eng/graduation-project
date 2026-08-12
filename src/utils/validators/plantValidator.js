@@ -1,6 +1,6 @@
 const { param, check } = require("express-validator");
 const validatormiddleware = require("../../middlewares/validatorMiddleware");
-
+const plant = require("../../models/plants");
 exports.getPlantValidator = [
   check("id").isMongoId().withMessage("invalid plant id format"),
   validatormiddleware,
