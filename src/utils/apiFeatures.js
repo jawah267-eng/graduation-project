@@ -1,7 +1,7 @@
 class ApiFeatures {
   constructor(mongooseQuery, queryString) {
     this.mongooseQuery = mongooseQuery;
-    this.this.queryString = this.queryString;
+    this.queryString = queryString;
   }
   filter() {
     const queryStringObj = { ...this.queryString };
