@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     slug: {
-      type: string,
+      type: String,
       lowercase: true,
     },
 
@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    phone: string,
-    profileImg: string,
+    phone: String,
+    profileImg: String,
     password: {
       type: String,
       required: true,
