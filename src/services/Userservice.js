@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 exports.uploadimage = upload.single("profileImg");
 
 // Get Cloudinary image URL and save it in request body
-exports.setProfileImage = expressAsyncHandler(async (req, res, next) => {
+exports.setProfileImage = asyncHandler(async (req, res, next) => {
   if (req.file) {
     req.body.profileImg = req.file.path;
   }
