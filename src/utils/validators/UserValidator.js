@@ -33,10 +33,11 @@ exports.createUsertValidator = [
     .notEmpty()
     .withMessage("password required")
     .isLength({ min: 6 })
-    .custom((password ,{req })=>{
-        if(password !== req.body.passwordConfirm){
-            throw new Error("password confirmation incorrect")
-        } return true;
+    .custom((password, { req }) => {
+      if (password !== req.body.passwordConfirm) {
+        throw new Error("password confirmation incorrect");
+      }
+      return true;
     }),
   check("passwordConfirm")
     .notEmpty()
@@ -76,23 +77,27 @@ exports.deleteUserValidator = [
   validatormiddleware,
 ];
 
-
-exorts.changeUserPasswordValidator=[
-    body("currentPassword").notEmpty().withMessage("you must enter your current password"),
-    body("passwordConfirm").notEmpty().withMessage("you must enter the password confirm"),
-    body("password").notEmpty().withMessage("you must enter your password")
-    .custom(async (val, {req})=>{
-        //1) verify current password
-        const user = await User.findById(req.params.id);
-        if (!user){
-            throw new Error("there is no user for this id");
-        }
-        //2) verify password confirm
-            if(val !== req.body.passwordConfirm){
-            throw new Error("password confirmation incorrect")
-        }
-        return true;
-        
-    });
-    validatormiddleware;
-]
+exorts.changeUserPasswordValidator = [
+  body("currentPassword")
+    .notEmpty()
+    .withMessage("you must enter your current password"),
+  body("passwordConfirm")
+    .notEmpty()
+    .withMessage("you must enter the password confirm"),
+  body("password")
+    .notEmpty()
+    .withMessage("you must enter your password")
+    .custom(async (val, { req }) => {
+      //1) verify current password
+      const user = await User.findById(req.params.id);
+      if (!user) {
+        throw new Error("there is no user for this id");
+      }
+      //2) verify password confirm
+      if (val !== req.body.passwordConfirm) {
+        throw new Error("password confirmation incorrect");
+      }
+      return true;
+    }),
+  validatormiddleware,
+];
