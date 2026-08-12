@@ -77,7 +77,7 @@ exports.deleteUserValidator = [
   validatormiddleware,
 ];
 
-exorts.changeUserPasswordValidator = [
+exports.changeUserPasswordValidator = [
   body("currentPassword")
     .notEmpty()
     .withMessage("you must enter your current password"),
