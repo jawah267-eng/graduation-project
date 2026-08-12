@@ -49,7 +49,7 @@ app.use("/api/v1/fertilizing", fertilizingRoute);
 // POST /api/v1/diseases
 app.use("/api/v1/diseases", diseaseRoute);
 // POST  /user
-app.use("api/v1/users", UserRouter);
+app.use("/api/v1/users", UserRouter);
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
