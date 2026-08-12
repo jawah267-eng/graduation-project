@@ -3,6 +3,10 @@ const plant = require("../models/plants");
 const Variety = require("../models/Variety-plant");
 const DiseasePlant = require("../models/diseases_plant");
 const Disease = require("../models/diseases");
+const apiFeatures = require("../utils/apiFeatures");
+const ApiError = require("../utils/apiError");
+const ApiFeatures = require("../utils/apiFeatures");
+const { default: mongoose } = require("mongoose");
 
 // @createplant تابع لاضافة نبتة من postmanمن خلال req.body
 //@rote   post: api/v1/plants
@@ -29,6 +33,14 @@ const getAllPlants = async ({ page, limit }) => {
     plant.countDocuments(),
   ]);
   return { plants, total };
+  // build query
+  const apiFeatures = new ApiFeatures(plant.find(), req.query)
+    .filter()
+    .search()
+    .limitFields()
+    .sort();
+  //execute query
+  const pl = await apiFeatures.mongooseQuery;
 };
 // @get   plants by id
 // @rote  get: api/v1/plants/:id

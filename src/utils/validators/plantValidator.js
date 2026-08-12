@@ -7,10 +7,18 @@ exports.getPlantValidator = [
 ];
 exports.createPlantValidator = [
   check("common_name").notEmpty().withMessage("plants required"),
+  body("name").custom((val, { req }) => {
+    req.body.slug = slugify(val);
+    return true;
+  }),
   validatormiddleware,
 ];
 exports.updatePlantValidator = [
   check("plantId").isMongoId().withMessage("invalid plant id format"),
+  body("name").custom((val, { req }) => {
+    req.body.slug = slugify(val);
+    return true;
+  }),
   validatormiddleware,
 ];
 exports.deletePlantValidator = [
