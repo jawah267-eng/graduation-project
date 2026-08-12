@@ -37,7 +37,7 @@ exports.createUsertValidator = [
         if(password !== req.body.passwordConfirm){
             throw new Error("password confirmation incorrect")
         } return true;
-    })
+    }),
   check("passwordConfirm")
     .notEmpty()
     .withMessage("password confirmation required"),
