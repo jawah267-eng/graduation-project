@@ -5,7 +5,6 @@ const {
   getUsertValidator,
   updateUserValidator,
   deleteUserValidator,
-  changeUserPassword,
   changeUserPasswordValidator,
 } = require("../utils/validators/UserValidator");
 const {
@@ -16,6 +15,7 @@ const {
   deleteUser,
   uploadimage,
   setProfileImage,
+  changeUserPassword,
 } = require("../services/Userservice");
 // هاد مشان تغير كلمة السر
 router.put(
