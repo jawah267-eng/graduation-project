@@ -1,7 +1,7 @@
 const slugify = require("slugify");
 const { param, check, body } = require("express-validator");
 const validatormiddleware = require("../../middlewares/validatorMiddleware");
-const user = require("../../models/user");
+const User = require("../../models/user");
 
 exports.getUsertValidator = [
   check("id").isMongoId().withMessage("invalid user id format"),
@@ -92,6 +92,13 @@ exports.changeUserPasswordValidator = [
       const user = await User.findById(req.params.id);
       if (!user) {
         throw new Error("there is no user for this id");
+      }
+      const isCurrentPassword = await bcrypt.compare(
+        req.body.currentPassword,
+        userPassword,
+      );
+      if (!isCurrentPassword) {
+        throw new Error("Incorrect current password");
       }
       //2) verify password confirm
       if (val !== req.body.passwordConfirm) {
