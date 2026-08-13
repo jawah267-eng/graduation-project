@@ -2,7 +2,7 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const upload = require("../middlewares/uploadMiddleware");
 const factory = require("./handlersfactory");
-const apierror = require("../utils/apiError");
+const Apierror = require("../utils/apiError");
 const bcrypt = require("bcryptjs");
 // Upload profile image
 exports.uploadimage = upload.single("profileImg");
@@ -36,7 +36,7 @@ exports.createUser = factory.createOne(User);
 // @desc  update a spicefic user
 // route UPDATE /api/v1/users/:id
 //access private
-exports.updateuser = asyncHandler(async (req, res, next) => {
+exports.updateUser = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -51,7 +51,7 @@ exports.updateuser = asyncHandler(async (req, res, next) => {
     },
   );
   if (!document) {
-    return next(new ApiError(`No document for this id ${id}`, 404));
+    return next(new ApiError(`No document for this id ${req.params.id}`, 404));
   }
   res.status(200).json({
     status: "success",
@@ -65,7 +65,7 @@ exports.changeUserPassword = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,
     {
-      password: await bcrypt.hash("req.body.password", 12),
+      password: await bcrypt.hash(req.body.password, 12),
     },
     {
       new: true,
