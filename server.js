@@ -1,4 +1,9 @@
 require("dotenv").config();
+
+console.log("ENV PATH:", process.cwd());
+console.log("JWT SECRET:", process.env.JWT_SECRET_KEY);
+console.log("JWT EXPIRE:", process.env.JWT_EXPIRE_TIME);
+
 const app = require("./app");
 const mongoose = require("mongoose");
 
