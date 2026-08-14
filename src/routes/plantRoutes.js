@@ -25,7 +25,7 @@ router
 // plant
 router.route("/").get(controller.getallplant).post(
   Authservice.protect, // للتاكد اذا مسجل او لا
-  // role("advisor"), //له دور المرشد
+  Authservice.restrictTo("admin"), //له دور المرشد
   upload.array("images", 5),
   createPlantValidator,
   controller.createPlant,
