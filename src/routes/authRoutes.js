@@ -11,7 +11,7 @@ const { SingUp } = require("../services/authService");
 //   changeUserPassword,
 // );
 
-router.route("/").post(SignUpValidator, SingUp);
+router.route("/signup").post(SignUpValidator, SingUp);
 
 // router
 //   .route("/:id")
