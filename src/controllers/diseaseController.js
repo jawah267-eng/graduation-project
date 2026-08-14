@@ -62,7 +62,7 @@ exports.getDisease = asynchandler(async (req, res, next) => {
     return next(new ApiError("Invalid ID", 400));
   }
 
-  const disease = await diseaseService.getDisease(id);
+  const disease = await diseaseService.getDiseaseById(id);
 
   if (!disease) {
     return next(new ApiError(`Disease not found for this id ${id}`, 404));

@@ -42,7 +42,7 @@ const getAllDiseases = async () => {
 //@get disese by id
 //@route Get:/api/v1/diseases/userplant/:userPlantId
 // جلب مرض حسب الـ id
-const getDisease = async (id) => {
+const getDiseaseById = async (id) => {
   return await Disease.findById(id);
 };
 //////////////////////////////////////////////////////////
