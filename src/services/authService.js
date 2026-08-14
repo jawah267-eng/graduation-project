@@ -11,7 +11,7 @@ exports.SingUp = asyncHandler(async (req, res, next) => {
     password: req.body.password,
   });
   //2- Generate token
-  const token = jwt.sign({ userId: User._id }, process.env.JWT_SECRET_KEY, {
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE_TIME,
   });
   res.status(201).json({ data: user, token });
