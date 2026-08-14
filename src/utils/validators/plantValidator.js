@@ -1,3 +1,4 @@
+const slugify = require("slugify");
 const { param, check, body } = require("express-validator");
 const validatormiddleware = require("../../middlewares/validatorMiddleware");
 exports.getPlantValidator = [
