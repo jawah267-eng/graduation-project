@@ -1,8 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
-// const { SignUpValidator } = require("../utils/validators/authValidator");
+const express = require("express");
+const router = express.Router();
+const { SignUpValidator } = require("../utils/validators/authValidator");
 
-// const { SingUp } = require("../services/authService");
+const { SingUp } = require("../services/authService");
 
 // // هاد مشان تغير كلمة السر
 // router.put(
@@ -11,7 +11,7 @@
 //   changeUserPassword,
 // );
 
-// router.route("/signup").post(SingUp);
+router.route("/signup").post(SignUpValidator, SingUp);
 
 // router
 //   .route("/:id")
@@ -19,12 +19,13 @@
 //   .put(uploadimage, setProfileImage, updateUserValidator, updateUser)
 //   .delete(deleteUserValidator, deleteUser);
 
-// module.exports = router;
-const express = require("express");
-const router = express.Router();
-
-const { SingUp } = require("../services/authService");
-
-router.post("/signup", SingUp);
-
 module.exports = router;
+
+// const express = require("express");
+// const router = express.Router();
+
+// const { SingUp } = require("../services/authService");
+
+// router.post("/signup", SingUp);
+
+// module.exports = router;

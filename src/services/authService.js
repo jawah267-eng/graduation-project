@@ -1,51 +1,51 @@
-// const asyncHandler = require("express-async-handler");
-// const ApiError = require("../utils/apiError");
-// const User = require("../models/user");
-// const jwt = require("jsonwebtoken");
-
-// exports.SingUp = asyncHandler(async (req, res, next) => {
-//   // 1-create user
-//   const user = await User.create({
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: req.body.password,
-//   });
-//   //2- Generate token
-//   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-//     expiresIn: process.env.JWT_EXPIRE_TIME,
-//   });
-//   res.status(201).json({ data: user, token });
-// });
+const asyncHandler = require("express-async-handler");
+const ApiError = require("../utils/apiError");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
-exports.SingUp = async (req, res, next) => {
-  try {
-    console.log("1 - entered signup");
-    console.log("next type:", typeof next);
+exports.SingUp = asyncHandler(async (req, res, next) => {
+  // 1-create user
+  const user = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  });
+  //2- Generate token
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE_TIME,
+  });
+  res.status(201).json({ data: user, token });
+});
+// const User = require("../models/user");
+// const jwt = require("jsonwebtoken");
 
-    const user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-    });
+// exports.SingUp = async (req, res, next) => {
+//   try {
+//     console.log("1 - entered signup");
+//     console.log("next type:", typeof next);
 
-    console.log("2 - user created");
+//     const user = await User.create({
+//       name: req.body.name,
+//       email: req.body.email,
+//       password: req.body.password,
+//     });
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: process.env.JWT_EXPIRE_TIME,
-    });
+//     console.log("2 - user created");
 
-    console.log("3 - token created");
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+//       expiresIn: process.env.JWT_EXPIRE_TIME,
+//     });
 
-    return res.status(201).json({
-      data: user,
-      token,
-    });
-  } catch (err) {
-    console.log("🔥 REAL ERROR:");
-    console.error(err);
+//     console.log("3 - token created");
 
-    return next(err);
-  }
-};
+//     return res.status(201).json({
+//       data: user,
+//       token,
+//     });
+//   } catch (err) {
+//     console.log("🔥 REAL ERROR:");
+//     console.error(err);
+
+//     return next(err);
+//   }
+// };
