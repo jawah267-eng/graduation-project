@@ -36,8 +36,21 @@ router.get(
   controller.getplant,
 );
 
-router.put("/:plantId", updatePlantValidator, controller.updateCategory);
-router.delete("/:plantId", deletePlantValidator, controller.deleteCategory);
+router.put(
+  "/:plantId",
+  Authservice.protect,
+  Authservice.restrictTo("admin"),
+  updatePlantValidator,
+  controller.updateCategory,
+);
+
+router.delete(
+  "/:plantId",
+  Authservice.protect,
+  Authservice.restrictTo("admin"),
+  deletePlantValidator,
+  controller.deleteCategory,
+);
 
 // route لانشاء علاقة بين المرض والنبتة
 router.post("/:id/diseases", controller.createDiseaseRelation);
