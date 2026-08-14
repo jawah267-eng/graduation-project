@@ -10,8 +10,9 @@ exports.SingUp = asyncHandler(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
   });
-  console.log("JWT SECRET:", process.env.JWT_SECRET_KEY);
-  console.log("JWT EXPIRE:", process.env.JWT_EXPIRE_TIME);
+  console.log("🔥 INSIDE AUTHSERVICE");
+  console.log("SECRET:", process.env.JWT_SECRET_KEY);
+  console.log("EXPIRE:", process.env.JWT_EXPIRE_TIME);
   //2- Generate token
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE_TIME,
