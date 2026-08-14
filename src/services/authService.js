@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 const User = require("../models/user");
 
-exports.SingUp = asyncHandler(async (req, rers, next) => {
+exports.SingUp = asyncHandler(async (req, res, next) => {
   // 1-create user
   const user = await User.create({
     name: req.body.name,
