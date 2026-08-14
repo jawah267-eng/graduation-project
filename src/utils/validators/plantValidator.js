@@ -15,7 +15,7 @@ exports.createPlantValidator = [
 ];
 exports.updatePlantValidator = [
   check("plantId").isMongoId().withMessage("invalid plant id format"),
-  body("name").custom((val, { req }) => {
+  body("common_name").custom((val, { req }) => {
     req.body.slug = slugify(val);
     return true;
   }),
