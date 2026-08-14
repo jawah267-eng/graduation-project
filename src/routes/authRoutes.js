@@ -4,12 +4,12 @@ const { SignUpValidator } = require("../utils/validators/authValidator");
 
 const { SingUp } = require("../services/authService");
 
-// هاد مشان تغير كلمة السر
-router.put(
-  "/changepassword/:id",
-  changeUserPasswordValidator,
-  changeUserPassword,
-);
+// // هاد مشان تغير كلمة السر
+// router.put(
+//   "/changepassword/:id",
+//   changeUserPasswordValidator,
+//   changeUserPassword,
+// );
 
 router.route("/").post(SignUpValidator, SingUp);
 
