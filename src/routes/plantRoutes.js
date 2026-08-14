@@ -16,11 +16,24 @@ const Authservice = require("../services/authService");
 
 // varirties
 router.get("/:plantId/varieties", controller.getVarietiesByPlant);
-router.post("/:id/varieties", controller.createVariety);
+router.post(
+  "/:id/varieties",
+  Authservice.protect,
+  Authservice.restrictTo("admin"),
+  controller.createVariety,
+);
 router
   .route("/:plantId/varieties/:varietyId")
-  .put(controller.updateSpecificCategory)
-  .delete(controller.deleteSpecificCategory);
+  .put(
+    Authservice.protect,
+    Authservice.restrictTo("admin"),
+    controller.updateSpecificCategory,
+  )
+  .delete(
+    Authservice.protect,
+    Authservice.restrictTo("admin"),
+    controller.deleteSpecificCategory,
+  );
 
 // plant
 router.route("/").get(controller.getallplant).post(
