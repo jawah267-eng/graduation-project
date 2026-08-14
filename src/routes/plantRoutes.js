@@ -11,8 +11,9 @@ const {
 } = require("../utils/validators/plantValidator");
 // const auth = require("../middlewares/auth");
 // const role = require("../middlewares/role");
-/*
- */
+
+const Authservice = require("../services/authService");
+
 // varirties
 router.get("/:plantId/varieties", controller.getVarietiesByPlant);
 router.post("/:id/varieties", controller.createVariety);
@@ -23,7 +24,7 @@ router
 
 // plant
 router.route("/").get(controller.getallplant).post(
-  // auth, // لتاكد انه مسجل دخول
+  Authservice.protect, // للتاكد اذا مسجل او لا
   // role("advisor"), //له دور المرشد
   upload.array("images", 5),
   createPlantValidator,

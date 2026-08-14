@@ -32,11 +32,33 @@ exports.LogIn = asyncHandler(async (req, res, next) => {
   //2-check if user exist & password is correct
   const user = await User.findOne({ email: req.body.email });
   if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new ApiError("Incorrect email or password"));
+    return next(new ApiError("Incorrect email or password", 401));
   }
   //3- Generate token
   const token = createToken(user._id);
 
   //4- send response  to client side
   res.status(200).json({ data: user, token });
+});
+//////////////////////////////////////////////////////////////////////
+exports.protect = asyncHandler(async (req, res, next) => {
+  // 1) Check if token exist, if exist get
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  if (!token) {
+    return next(
+      new ApiError(
+        "You are not login, Please login to get access this route",
+        401,
+      ),
+    );
+  }
+  // 2) Verify token (no change happens, expired token)
+  // 3) Check if user exists
+  // 4) Check if user change his password after token created
 });
