@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const Authservice = require("../services/authService");
+const userPlantController = require("../controllers/userplantcontroller");
+
+const express = require("express");
+const router = express.Router();
 
 const userPlantController = require("../controllers/userplantcontroller");
+const Authservice = require("../services/authService");
 
 router
   .route("/")
-  .post(userPlantController.createUserPlant)
-  .get(userPlantController.getAllUserPlants);
+  .post(Authservice.protect, userPlantController.createUserPlant)
+  .get(Authservice.protect, userPlantController.getAllUserPlants);
 
 router
   .route("/:id")
-  .get(userPlantController.getUserPlant)
-  .patch(userPlantController.updateUserPlant)
-  .delete(userPlantController.deleteUserPlant);
+  .get(Authservice.protect, userPlantController.getUserPlant)
+  .patch(Authservice.protect, userPlantController.updateUserPlant)
+  .delete(Authservice.protect, userPlantController.deleteUserPlant);
+
 module.exports = router;
