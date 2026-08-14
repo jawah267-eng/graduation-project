@@ -20,12 +20,3 @@ router.route("/signup").post(SignUpValidator, SingUp);
 //   .delete(deleteUserValidator, deleteUser);
 
 module.exports = router;
-
-// const express = require("express");
-// const router = express.Router();
-
-// const { SingUp } = require("../services/authService");
-
-// router.post("/signup", SingUp);
-
-// module.exports = router;
