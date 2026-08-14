@@ -66,12 +66,23 @@ router.delete(
 );
 
 // route لانشاء علاقة بين المرض والنبتة
-router.post("/:id/diseases", controller.createDiseaseRelation);
+router.post(
+  "/:id/diseases",
+  Authservice.protect,
+  Authservice.restrictTo("admin"),
+  controller.createDiseaseRelation,
+);
 
-router.get("/:plantId/diseases", controller.getDiseasesByPlant);
+router.get(
+  "/:plantId/diseases",
+  Authservice.protect,
+  controller.getDiseasesByPlant,
+);
 
 router.delete(
   "/:plantId/diseases/:relationId",
+  Authservice.protect,
+  Authservice.restrictTo("admin"),
   controller.deleteDiseaseRelation,
 );
 
