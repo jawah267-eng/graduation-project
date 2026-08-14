@@ -43,3 +43,21 @@ exports.SignUpValidator = [
     .withMessage("password confirmation required"),
   validatormiddleware,
 ];
+//////////////////////////////////////////////////////////////////////////////////
+// @desc  login
+// route POST /api/v1/auth/login
+//access puplic
+exports.LogInValidator = [
+  check("email")
+    .notEmpty()
+    .withMessage("Email required")
+    .isEmail()
+    .withMessage("Invalid email adress"),
+
+  check("password")
+    .notEmpty()
+    .withMessage("password required")
+    .isLength({ min: 6 })
+    .withMessage("password must be at least 6 charecters "),
+  validatormiddleware,
+];

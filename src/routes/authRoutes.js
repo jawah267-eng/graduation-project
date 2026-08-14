@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { SignUpValidator } = require("../utils/validators/authValidator");
+const {
+  SignUpValidator,
+  LogInValidator,
+} = require("../utils/validators/authValidator");
 
-const { SingUp } = require("../services/authService");
+const { SingUp, LogIn } = require("../services/authService");
 
 // // هاد مشان تغير كلمة السر
 // router.put(
@@ -12,6 +15,7 @@ const { SingUp } = require("../services/authService");
 // );
 
 router.route("/signup").post(SignUpValidator, SingUp);
+router.route("/login").post(LogInValidator, LogIn);
 
 // router
 //   .route("/:id")
