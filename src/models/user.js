@@ -42,12 +42,11 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   //اذا كلمة السر لم تتعدل لا تلقا
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password")) return;
   // hashing user password
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
 module.exports = mongoose.model("User", userSchema);
