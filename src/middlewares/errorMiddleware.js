@@ -3,7 +3,7 @@ const globalError = (err, req, res, next) => {
   err.status = err.status || "error";
   // رح اعمل اختبار انه انا بعملية التطوير بعتلي تابعsendErrorForDev
   // للي رح يرجع تفاصيل الخطأ
-  if (process.env.Node_ENV == "devlopment") {
+  if (process.env.NODE_ENV == "development") {
     sendErrorForDev(err, res);
   } else sendErrorForProd(err, res);
 };
