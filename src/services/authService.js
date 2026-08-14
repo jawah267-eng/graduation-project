@@ -19,6 +19,11 @@ exports.SingUp = asyncHandler(async (req, res, next) => {
 
   //2- Generate token
   const token = createToken(user._id);
+  // 3- Send response
+  res.status(201).json({
+    data: user,
+    token,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
