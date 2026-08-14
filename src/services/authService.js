@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 exports.SingUp = asyncHandler(async (req, res, next) => {
   // 1-create user
@@ -11,8 +12,7 @@ exports.SingUp = asyncHandler(async (req, res, next) => {
   });
   //2- Generate token
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env,
-    JWT_EXPIRE_TIME,
+    expiresIn: process.env.JWT_EXPIRE_TIME,
   });
-  res.status(201).json({ data: user }, token);
+  res.status(201).json({ data: user, token });
 });
