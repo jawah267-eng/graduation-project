@@ -23,7 +23,7 @@ exports.SignUpValidator = [
     .withMessage("Invalid email adress")
     .custom((val) =>
       user.findOne({ email: val }).then((user) => {
-        if (user) {
+        if (User) {
           return Promise.reject(new Error("E-mail already in user"));
         }
       }),
