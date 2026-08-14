@@ -23,7 +23,7 @@ exports.createUsertValidator = [
     .isEmail()
     .withMessage("Invalid email adress")
     .custom((val) =>
-      user.findOne({ email: val }).then((User) => {
+      User.findOne({ email: val }).then((User) => {
         if (User) {
           return Promise.reject(new Error("E-mail already in user"));
         }
