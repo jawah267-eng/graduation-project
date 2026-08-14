@@ -58,8 +58,10 @@ exports.protect = asyncHandler(async (req, res, next) => {
       ),
     );
   }
+  console.log("1 - token:", !!token);
   // 2) Verify token (no change happens, expired token)
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  console.log("2 - decoded:", decoded);
   // 3) Check if user exists
 
   const currentUser = await User.findById(decoded.userId);
@@ -71,6 +73,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
       ),
     );
   }
+  console.log("3 - currentUser:", !!currentUser);
   // 4) Check if user change his password after token created
   if (currentUser.passwordChangedAt) {
     const passChangedTimestamp = parseInt(
@@ -89,5 +92,8 @@ exports.protect = asyncHandler(async (req, res, next) => {
     }
   }
   req.user = currentUser;
+
+  console.log("4 - protect finished");
+
   next();
 });
