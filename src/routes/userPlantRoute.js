@@ -3,12 +3,6 @@ const router = express.Router();
 const Authservice = require("../services/authService");
 const userPlantController = require("../controllers/userplantcontroller");
 
-const express = require("express");
-const router = express.Router();
-
-const userPlantController = require("../controllers/userplantcontroller");
-const Authservice = require("../services/authService");
-
 router
   .route("/")
   .post(Authservice.protect, userPlantController.createUserPlant)
