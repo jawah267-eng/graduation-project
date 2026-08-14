@@ -1,34 +1,18 @@
-const bcrypt = require("bcryptjs");
+const asyncHandler = require("express-async-handler");
+const ApiError = require("../utils/apiError");
 const User = require("../models/user");
 
-const register = async (data) => {
-  const { name, email, password, role, dateOfBirth } = data;
-
-  // التأكد أن الإيميل غير مستخدم
-  const existingUser = await User.findOne({ email });
-
-  if (existingUser) {
-    throw new Error("Email already exists");
-  }
-
-  // تشفير كلمة السر
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // إنشاء المستخدم
+exports.SingUp = asyncHandler(async (req, rers, next) => {
+  // 1-create user
   const user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-    role,
-    dateOfBirth,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
   });
-
-  // عدم إرجاع كلمة السر
-  user.password = undefined;
-
-  return user;
-};
-
-module.exports = {
-  register,
-};
+  //2- Generate token
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env,
+    JWT_EXPIRE_TIME,
+  });
+  res.status(201).json({ data: user }, token);
+});

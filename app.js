@@ -12,7 +12,7 @@ const fertilizingRoute = require("./src/routes/fertilizingRoutes");
 const diseaseRoute = require("./src/routes/diseaseRoute");
 const diseasePlantRoute = require("./src/routes/diseaseRoute");
 const UserRouter = require("./src/routes/UserRoute");
-
+const authRouter = require("./src/routes/authRoutes");
 // init app
 const app = express();
 
@@ -50,6 +50,8 @@ app.use("/api/v1/fertilizing", fertilizingRoute);
 app.use("/api/v1/diseases", diseaseRoute);
 // POST  /user
 app.use("/api/v1/users", UserRouter);
+
+app.use("/api/v1/auth", authRouter);
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
