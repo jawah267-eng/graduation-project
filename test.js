@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const sendEmail = require("./utils/sendEmail");
+const sendEmail = require("./src/utils/sendEmail");
 
 sendEmail({
   email: "jawa@gmail.com",
