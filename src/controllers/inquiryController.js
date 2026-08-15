@@ -3,7 +3,12 @@ const Inquiry = require("../models/inquiry");
 const { sendInquiryReceivedEmail } = require("../services/emailService");
 
 exports.createInquiry = asyncHandler(async (req, res, next) => {
-  // إنشاء الاستفسار
+  console.log("✅ وصلنا للـ controller");
+
+  console.log("USER:", req.user);
+  console.log("BODY:", req.body);
+  console.log("FILE:", req.file);
+
   const inquiry = await Inquiry.create({
     user_id: req.user._id,
     subject: req.body.subject,
@@ -11,12 +16,15 @@ exports.createInquiry = asyncHandler(async (req, res, next) => {
     image: req.file ? req.file.path : null,
   });
 
-  // إرسال إيميل للمستخدم المسجل
+  console.log("✅ تم حفظ الاستفسار");
+
   await sendInquiryReceivedEmail(req.user.email, req.user.name);
+
+  console.log("✅ تم إرسال الإيميل");
 
   res.status(201).json({
     status: "success",
-    message: "تم إرسال الاستفسار بنجاح، وسيتم التحقق منه لاحقًا",
+    message: "تم إرسال الاستفسار بنجاح",
     data: inquiry,
   });
 });
