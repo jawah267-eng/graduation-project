@@ -29,11 +29,3 @@ process.on("unhandledRejection", (err) => {
   });
 });
 const sendEmail = require("./utils/sendEmail");
-
-sendEmail({
-  email: "إيميلك الشخصي",
-  subject: "Test Email",
-  message: "إذا وصلتك هذه الرسالة، Nodemailer شغال تمام 🎉",
-})
-  .then(() => console.log("Email sent successfully"))
-  .catch((err) => console.log(err));
