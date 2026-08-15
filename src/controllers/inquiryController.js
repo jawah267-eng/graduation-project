@@ -20,7 +20,13 @@ exports.createInquiry = asyncHandler(async (req, res, next) => {
 
   await sendInquiryReceivedEmail(req.user.email, req.user.name);
 
-  console.log("✅ تم إرسال الإيميل");
+  try {
+    await sendInquiryReceivedEmail(req.user.email, req.user.name);
+
+    console.log("✅ تم إرسال الإيميل");
+  } catch (error) {
+    console.error("❌ خطأ بإرسال الإيميل:", error);
+  }
 
   res.status(201).json({
     status: "success",
