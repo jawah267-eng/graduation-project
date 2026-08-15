@@ -13,6 +13,8 @@ const diseaseRoute = require("./src/routes/diseaseRoute");
 const diseasePlantRoute = require("./src/routes/diseaseRoute");
 const UserRouter = require("./src/routes/UserRoute");
 const authRouter = require("./src/routes/authRoutes");
+const inquiryRoute = require("./src/routes/inquiryRoute");
+
 // init app
 const app = express();
 
@@ -52,6 +54,9 @@ app.use("/api/v1/diseases", diseaseRoute);
 app.use("/api/v1/users", UserRouter);
 
 app.use("/api/v1/auth", authRouter);
+
+app.use("/api/v1/inquiries", inquiryRoute);
+
 // catch error "route not found"
 app.use((req, res, next) => {
   // const err = new Error(`Can't find this route: ${req.originalUrl}`);
