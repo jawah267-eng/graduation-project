@@ -18,8 +18,6 @@ exports.createInquiry = asyncHandler(async (req, res, next) => {
 
   console.log("✅ تم حفظ الاستفسار");
 
-  await sendInquiryReceivedEmail(req.user.email, req.user.name);
-
   try {
     await sendInquiryReceivedEmail(req.user.email, req.user.name);
 
@@ -28,9 +26,9 @@ exports.createInquiry = asyncHandler(async (req, res, next) => {
     console.error("❌ خطأ بإرسال الإيميل:", error);
   }
 
-  res.status(201).json({
+  return res.status(201).json({
     status: "success",
-    message: "تم إرسال الاستفسار بنجاح",
+    message: "تم إرسال الاستفسار بنجاح، وسيتم التحقق منه لاحقًا",
     data: inquiry,
   });
 });
