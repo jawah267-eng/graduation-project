@@ -7,7 +7,7 @@ const sendInquiryReceivedEmail = async (email, name) => {
 
   const { data, error } = await resend.emails.send({
     from: "Flora Care <onboarding@resend.dev>",
-    to: [email],
+    to: ["jawah267@gmail.com"],
     subject: "تم استلام استفسارك - Flora Care",
 
     html: `
