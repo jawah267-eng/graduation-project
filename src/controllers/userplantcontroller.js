@@ -29,14 +29,19 @@ exports.createUserPlant = asyncHandler(async (req, res, next) => {
   }
 
   // إنشاء السجل
-  const result = await UserPlantService.createUserPlant(req.body);
+  const data = {
+    ...req.body,
+    user_id: req.user._id,
+  };
+
+  const result = await UserPlantService.createUserPlant(data);
 
   res.status(201).json(result);
 });
 ////////////////////////////////////////////////////////////////////////////////
 // برجع كل نباتات المستخدم
 exports.getAllUserPlants = asyncHandler(async (req, res) => {
-  const userPlants = await UserPlantService.getAllUserPlants();
+  const userPlants = await UserPlantService.getAllUserPlants(req.user._id);
 
   res.status(200).json({
     results: userPlants.length,
@@ -90,7 +95,7 @@ exports.deleteUserPlant = asyncHandler(async (req, res, next) => {
     return next(new ApiError("Invalid user plant id", 400));
   }
 
-  const userPlant = await UserPlantService.deleteUserPlant(id);
+  const userPlant = await UserPlantService.deleteUserPlant(id, req.user._id);
 
   if (!userPlant) {
     return next(new ApiError("User plant not found", 404));

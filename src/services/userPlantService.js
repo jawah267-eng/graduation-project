@@ -47,10 +47,11 @@ const createUserPlant = async (data) => {
 /////////////////////////////////////////////////////////////////
 // @get a list of userplants
 // @rote  get: api/v1/userplants
-const getAllUserPlants = async () => {
-  const userPlants = await UserPlant.find()
-    .populate("plant_id", "common_name")
-    .populate("user_id");
+const getAllUserPlants = async (userId) => {
+  const userPlants = await UserPlant.find({ user_id: userId }).populate(
+    "plant_id",
+    "common_name",
+  );
   const result = await Promise.all(
     userPlants.map(async (userPlant) => {
       const water = await Water.findOne({
@@ -75,28 +76,47 @@ const getAllUserPlants = async () => {
 // @get a list of userplants by id
 // @rote  get: api/v1/userplants/:id
 const getUserPlant = async (id) => {
-  return await UserPlant.findById(id)
+  return await UserPlant.findOne({
+    _id: id,
+    user_id: userId,
+  })
     .populate("plant_id", "common_name")
     .populate("user_id");
 };
 ///////////////////////////////////////////////////////////////////
 // @update t of userplants
 // @rote  update: api/v1/userplants/:id
-const updateUserPlant = async (id, data) => {
-  return await UserPlant.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true,
-  });
+const updateUserPlant = async (id, userId, data) => {
+  return await UserPlant.findOneAndUpdate(
+    {
+      _id: id,
+      user_id: userId,
+    },
+    data,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 };
 ///////////////////////////////////////////////////////////////////
 // @delete  of userplants
 // @rote  delete: api/v1/userplants/:id
-const deleteUserPlant = async (id) => {
+const deleteUserPlant = async (id, userId) => {
+  const userPlant = await UserPlant.findOneAndDelete({
+    _id: id,
+    user_id: userId,
+  });
+
+  if (!userPlant) {
+    return null;
+  }
+
   await Water.deleteOne({ user_plant_id: id });
   await Fertilizing.deleteOne({ user_plant_id: id });
-  return await UserPlant.findByIdAndDelete(id);
-};
 
+  return userPlant;
+};
 module.exports = {
   createUserPlant,
   getAllUserPlants,
