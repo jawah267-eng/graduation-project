@@ -1,53 +1,42 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("❌ SMTP connection failed:", error);
-  } else {
-    console.log("✅ SMTP server is ready");
-  }
-});
 const sendInquiryReceivedEmail = async (email, name) => {
   console.log("📧 محاولة إرسال الإيميل إلى:", email);
 
-  const info = await transporter.sendMail({
-    from: `"Flora Care" <${process.env.EMAIL_USER}>`,
-    to: email,
+  const { data, error } = await resend.emails.send({
+    from: "Flora Care <onboarding@resend.dev>",
+    to: [email],
     subject: "تم استلام استفسارك - Flora Care",
 
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; line-height: 2;">
         <h2>مرحبًا ${name} 🌱</h2>
 
-        <p>تم استلام استفسارك بنجاح.</p>
+        <p>
+          تم استلام استفسارك بنجاح.
+        </p>
 
         <p>
           سيتم التحقق من طلبك من قبل فريق Flora Care
           والرد عليك لاحقًا.
         </p>
 
-        <p>شكرًا لاستخدامك Flora Care 🌿</p>
+        <p>
+          شكرًا لاستخدامك Flora Care 🌿
+        </p>
       </div>
     `,
   });
 
-  console.log("📧 Email sent:", info.messageId);
+  if (error) {
+    console.error("❌ خطأ بإرسال الإيميل:", error);
+    throw new Error(error.message);
+  }
 
-  return info;
+  console.log("✅ Email sent:", data);
+  return data;
 };
 
 module.exports = {
