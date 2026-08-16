@@ -12,7 +12,13 @@ const transporter = nodemailer.createTransport({
   greetingTimeout: 10000,
   socketTimeout: 10000,
 });
-
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ SMTP connection failed:", error);
+  } else {
+    console.log("✅ SMTP server is ready");
+  }
+});
 const sendInquiryReceivedEmail = async (email, name) => {
   console.log("📧 محاولة إرسال الإيميل إلى:", email);
 
